@@ -29,3 +29,12 @@ Button.prototype.handleMouseClick = function() {
         this.onClick();
     }
 };
+
+
+
+
+var gameActive = function () {
+    background(63, 63, 63);
+};
+
+gameActive();
