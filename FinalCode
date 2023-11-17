@@ -10,7 +10,6 @@ var draw = function(){
 
 
 
-
 //Atseroid obj code:
 var asteroid = function(x, y) {
     this.x = x;
