@@ -1,0 +1,8 @@
+background(9, 0, 69);
+var star= image(getImage("cute/Star"),20,20,50,80);
+var rocket= image(getImage("avatars/old-spice-man-blue"),180,285,50,50);
+var asteroid= image(getImage("cute/Rock"),200,100,60,100);
+var startButton = rect(50,217,50,50);
+var draw = function(){
+    
+};
