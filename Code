@@ -6,3 +6,40 @@ var startButton = rect(50,217,50,50);
 var draw = function(){
     
 };
+
+
+
+
+
+//Atseroid obj code:
+var asteroid = function(x, y) {
+    this.x = x;
+    this.y = y;
+};
+
+asteroid.prototype.draw = function() {
+    image(getImage("cute/Rock"),this.x,this.y,50,50);
+};
+
+//
+var asteroidArray = [];
+for (var i = 0; i < 1000; i++) {  
+    asteroidArray.push(new asteroid(random(30, 370), i * 40 - 8000));
+    //asteroidArray.push(new asteroid(i * 80 - 8000, random(20, 260)));
+}
+
+//Game active 
+var gameLive = function () {
+    for (var i = 0; i < asteroidArray.length; i++) {
+        asteroidArray[i].draw();
+        asteroidArray[i].y +=1;
+    }
+    fill(252, 252, 252);
+    ellipse(mouseX,mouseY,20,20);
+};
+
+//Draw function
+draw = function() {
+    background(54, 45, 45);
+    gameLive();
+};
