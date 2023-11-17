@@ -1,4 +1,3 @@
-//Gloabl variables
 background(9, 0, 69);
 var stillPlaying = false;
 
@@ -16,11 +15,12 @@ var Button = function(config) {
 //draw method
 Button.prototype.draw = function() {
     fill(212, 155, 32);
+    stroke(0, 0, 0);
     rect(this.x, this.y, this.width, this.height);
     fill(0, 0, 0);
-    textSize(19);
+    textFont(f,22);
     textAlign(LEFT, TOP);
-    text(this.label, this.x+10, this.y+this.height/4);
+    text(this.label, this.x+10, this.y+this.height/5);
 };
 
 //mouse inside method
@@ -48,7 +48,26 @@ var asteroid = function(x, y) {
 asteroid.prototype.draw = function() {
     image(getImage("cute/Rock"),this.x,this.y,50,50);
 };
-
+//starry background to look like movement
+var star = function(x,y) {
+    this.x = x;
+    this.y = y;
+};
+star.prototype.draw = function() {
+   fill(255, 255, 255);
+   rect(this.x,this.y,5,5);   
+};
+var starArray = [];
+for(var i = 0; i < 1000; i++){
+    starArray.push(new star(random (0,400), i * 10 - 8000));
+}
+var backgroundScene = function() {
+    background(0,0,50);
+ for (var i = 0; i < starArray.length; i++) {
+        starArray[i].draw();
+        starArray[i].y +=0.5;
+ }
+};
 //asteroids pushed into random places
 var asteroidArray = [];
 for (var i = 0; i < 1000; i++) {  
@@ -59,7 +78,7 @@ for (var i = 0; i < 1000; i++) {
 var startButton = new Button({
     x: 128,
     y: 234,
-    width: 142,
+    width: 140,
     height: 44,
     label: "START GAME",
     onClick: function() {
@@ -80,7 +99,6 @@ var homeScreen = function () {
 
 //Game active 
 var gameLive = function () {
-    background(9,0,69);
     for (var i = 0; i < asteroidArray.length; i++) {
         asteroidArray[i].draw();
         asteroidArray[i].y +=1;
@@ -92,10 +110,12 @@ var gameLive = function () {
 draw = function() {
     if(stillPlaying === true)
     {
+        backgroundScene();
         gameLive();
     } 
     else
     {
+        backgroundScene();
         homeScreen();
     }
 };
