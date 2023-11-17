@@ -1,34 +1,86 @@
+//Gloabl variables
 background(9, 0, 69);
-var star= image(getImage("cute/Star"),20,20,50,80);
-var rocket= image(getImage("avatars/old-spice-man-blue"),180,285,50,50);
-var asteroid= image(getImage("cute/Rock"),200,100,60,100);
-var startButton = rect(50,217,50,50);
-var draw = function(){
-    
+var stillPlaying = false;
+
+
+//Button constructor
+var Button = function(config) {
+    this.x = config.x || 0;
+    this.y = config.y || 0;
+    this.width = config.width || 150;
+    this.height = config.height || 50;
+    this.label = config.label || "Click";
+    this.onClick = config.onClick || function() {};
 };
 
+//draw method
+Button.prototype.draw = function() {
+    fill(212, 155, 32);
+    rect(this.x, this.y, this.width, this.height);
+    fill(0, 0, 0);
+    textSize(19);
+    textAlign(LEFT, TOP);
+    text(this.label, this.x+10, this.y+this.height/4);
+};
 
+//mouse inside method
+Button.prototype.isMouseInside = function() {
+    return mouseX > this.x &&
+           mouseX < (this.x + this.width) &&
+           mouseY > this.y &&
+           mouseY < (this.y + this.height);
+};
 
+//mouse click method
+Button.prototype.handleMouseClick = function() {
+    if (this.isMouseInside()) {
+        this.onClick();
+    }
+};
 
-//Atseroid obj code:
+//Asteroid constructor
 var asteroid = function(x, y) {
     this.x = x;
     this.y = y;
 };
 
+//draw method
 asteroid.prototype.draw = function() {
     image(getImage("cute/Rock"),this.x,this.y,50,50);
 };
 
-//
+//asteroids pushed into random places
 var asteroidArray = [];
 for (var i = 0; i < 1000; i++) {  
     asteroidArray.push(new asteroid(random(30, 370), i * 40 - 8000));
-    //asteroidArray.push(new asteroid(i * 80 - 8000, random(20, 260)));
 }
+
+
+var startButton = new Button({
+    x: 128,
+    y: 234,
+    width: 142,
+    height: 44,
+    label: "START GAME",
+    onClick: function() {
+        stillPlaying = true;
+    }
+});
+
+//mouse clicked
+mouseClicked = function() {
+    startButton.handleMouseClick();
+};
+
+//Home screen
+var homeScreen = function () {
+    startButton.draw();
+    
+};
 
 //Game active 
 var gameLive = function () {
+    background(9,0,69);
     for (var i = 0; i < asteroidArray.length; i++) {
         asteroidArray[i].draw();
         asteroidArray[i].y +=1;
@@ -36,9 +88,14 @@ var gameLive = function () {
     fill(252, 252, 252);
     ellipse(mouseX,mouseY,20,20);
 };
-
 //Draw function
 draw = function() {
-    background(54, 45, 45);
-    gameLive();
+    if(stillPlaying === true)
+    {
+        gameLive();
+    } 
+    else
+    {
+        homeScreen();
+    }
 };
