@@ -1,0 +1,196 @@
+//Global variables
+var stillPlaying = 0;
+
+
+//Button constructor
+var Button = function(config) {
+    this.x = config.x || 0;
+    this.y = config.y || 0;
+    this.width = config.width || 150;
+    this.height = config.height || 50;
+    this.label = config.label || "Click";
+    this.onClick = config.onClick || function() {};
+};
+
+//draw method for buttons
+Button.prototype.draw = function() {
+    fill(212, 155, 32);
+    stroke(0, 0, 0);
+    rect(this.x, this.y, this.width, this.height);
+    fill(0, 0, 0);
+    //textFont(f,22);
+    textAlign(LEFT, TOP);
+    text(this.label, this.x+10, this.y+this.height/5);
+};
+
+//mouse inside method for buttons
+Button.prototype.isMouseInside = function() {
+    return mouseX > this.x &&
+           mouseX < (this.x + this.width) &&
+           mouseY > this.y &&
+           mouseY < (this.y + this.height);
+};
+
+//mouse click method for buttons
+Button.prototype.handleMouseClick = function() {
+    if (this.isMouseInside()) {
+        this.onClick();
+    }
+};
+
+//Asteroid constructor
+var asteroid = function(x, y) {
+    this.x = x;
+    this.y = y;
+};
+
+//draw method for asteroid
+asteroid.prototype.draw = function() {
+    image(getImage("cute/Rock"),this.x,this.y,50,50);
+};
+
+//background stars constructor 
+var star = function(x,y) {
+    this.x = x;
+    this.y = y;
+};
+
+//draw method for background stars
+star.prototype.draw = function() {
+   fill(255, 255, 255);
+   rect(this.x,this.y,5,5);   
+};
+
+//array to give values for star locations
+var starArray = [];
+for(var i = 0; i < 1000; i++){
+    starArray.push(new star(random (0,400), i * 10 - 8000));
+}
+
+//background scene and drawing stars and moving them down the screen
+var backgroundScene = function() {
+    background(0,0,50);
+ for (var i = 0; i < starArray.length; i++) {
+        starArray[i].draw();
+        starArray[i].y +=0.5;
+ }
+};
+
+//asteroids given random values and pushed into asteroid array
+var asteroidArray = [];
+for (var i = 0; i < 1000; i++) {  
+    asteroidArray.push(new asteroid(random(30, 370), i * 40 - 8000));
+}
+
+//start button 
+var startButton = new Button({
+    x: 128,
+    y: 300,
+    width: 148,
+    height: 41,
+    label: "START GAME",
+    onClick: function() {
+        stillPlaying = 1;
+    }
+});
+
+//pause button
+var pauseButton = new Button({
+    x:310,
+    y:5,
+    width:85,
+    height:35,
+    label:"PAUSE",
+    onClick: function() {
+        stillPlaying = 2;
+    }
+});
+
+//resume button
+var resumeButton = new Button ({
+    x: 145,
+    y: 234,
+    width: 108,
+    height: 41,
+    label: "RESUME",
+    onClick: function() {
+        stillPlaying = 1;
+    }
+});
+
+//mouse clicked function
+mouseClicked = function() {
+    startButton.handleMouseClick();
+    pauseButton.handleMouseClick();
+    resumeButton.handleMouseClick();
+};
+
+//Home screen
+var homeScreen = function () {
+    fill(212, 155, 32);
+    rect(30,45,341,57);
+    fill(0, 0, 0);
+    textSize(35);
+    text("ASTEROID ATTACK",40,55);
+    textSize(20);
+    startButton.draw();
+    
+};
+
+//Game active 
+var gameLive = function () {
+    //asteroid array
+    for (var i = 0; i < asteroidArray.length; i++) {
+        asteroidArray[i].draw();
+        asteroidArray[i].y +=1;
+    }
+    fill(252, 252, 252);
+    //current spaceship drawing
+    ellipse(mouseX,mouseY,20,20);
+    pauseButton.draw();
+};
+
+//Pause screen
+var pauseScreen = function () {
+    fill(212, 155, 32);
+    rect(65, 115, 275, 60);
+    fill(0, 0, 0);
+    textSize(35);
+    text("GAME PAUSED", 75,125);
+    textSize(20);
+    resumeButton.draw();
+};
+
+//Game over screen
+var gameOverScreen = function () {
+    //Game over screen will go here
+};
+
+//Draw function
+draw = function() {
+    if(stillPlaying === 0)
+    {
+        backgroundScene();
+        homeScreen();
+    } 
+    else if(stillPlaying === 1){
+        backgroundScene();
+        gameLive();
+    }
+    else if (stillPlaying === 2)
+    {
+        backgroundScene();
+        pauseScreen();
+    }
+    else 
+    {
+        backgroundScene();
+        gameOverScreen();
+    }
+};
+
+//Notes:Changes
+/*
+    I think we should change the pause button to a keyboard key in the next sprint, just to make it easier for the player to pause the game when the game is active, and have text on the screen just saying which button to press.
+    I changed the still playing variable from a boolean value to numbers to make it easier to have multiple game states, I also added a pause and resume button to the game and a title (which we can definitely come up with a better one) but just a place holder for now, since we will eventually need both our names and bitmojis on the screen. 
+*/
