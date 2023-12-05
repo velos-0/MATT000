@@ -116,7 +116,7 @@ for(var i = 0; i < 1000; i++){
 //background scene and drawing stars and moving them down the screen
 var backgroundScene = function() {
     background(0,0,50);
- for (var i = 0; i < starArray.length; i++) {
+for (var i = 0; i < starArray.length; i++) {
         starArray[i].draw();
         starArray[i].y +=0.5;
  }
@@ -140,18 +140,6 @@ var startButton = new Button({
     }
 });
 
-//pause button
-var pauseButton = new Button({
-    x:310,
-    y:5,
-    width:85,
-    height:35,
-    label:"PAUSE",
-    onClick: function() {
-        stillPlaying = 2;
-    }
-});
-
 //resume button
 var resumeButton = new Button ({
     x: 145,
@@ -167,7 +155,6 @@ var resumeButton = new Button ({
 //mouse clicked function
 mouseClicked = function() {
     startButton.handleMouseClick();
-    pauseButton.handleMouseClick();
     resumeButton.handleMouseClick();
 };
 
@@ -194,7 +181,16 @@ var gameLive = function () {
     fill(252, 252, 252);
     //current spaceship drawing
     ellipse(mouseX,mouseY,20,20);
-    pauseButton.draw();
+    textSize(20);
+    fill(212, 155, 32);
+    text("CLICK SPACE BAR TO PAUSE",10,10);
+};
+
+//Function to make game pause using spacebar
+keyPressed = function() {
+    if (key.code === 32){
+        stillPlaying = 2;
+    }
 };
 
 //Pause screen
