@@ -69,9 +69,7 @@ arc(x+(h*10),y-(h*1),h*31,h*13,0,180);
 fill(207, 32, 230);
 noStroke();
 };
-    //end head
 
-    //start body
 var drawBitmojiBody=function(bX,bY,bitmojiBodyHeight){
     var x=bX;
     var y=bY;
@@ -89,9 +87,7 @@ line(x+(h*25),y+(h*61),x+(h*15),y+(h*34));//\2
 line(x+(h*35),y+(h*34),x+(h*25),y+(h*61));///2
 line(x+(h*35),y+(h*61),x+(h*35),y+(h*34));//
 };
-    //end body
 
-    //start sunglasses
 var drawBitmojiSunglasses=function(sX,sY,bitmojiSunglassHeight){
     var x=sX;
     var y=sY;
@@ -105,7 +101,6 @@ strokeWeight(2);
 line(x+(h*44),y-(h*28),x+(h*36),y-(h*41));
 line(x-(h*25),y-(h*28),x-(h*17),y-(h*41));
 };
-    //end sunglasses
 
 var drawBitmojiMatt =function(x,y,h){
     drawBitmojiHead(x,y,h);
@@ -115,6 +110,8 @@ var drawBitmojiMatt =function(x,y,h){
 
 //Global variables
 var stillPlaying = 0;
+var score = 0;
+var highScore = 0;
 
 //Button constructor
 var Button = function(config) {
@@ -158,9 +155,20 @@ var asteroid = function(x, y) {
     this.y = y;
 };
 
+//Gem constructor
+var gem = function(x, y) {
+    this.x = x;
+    this.y = y;
+};
+
 //draw method for asteroid
 asteroid.prototype.draw = function() {
     image(getImage("cute/Rock"),this.x,this.y,50,50);
+};
+
+//Gem draw method
+gem.prototype.draw = function() {
+    image(getImage("cute/GemBlue"),this.x,this.y,25,25);
 };
 
 //background stars constructor 
@@ -194,6 +202,12 @@ for (var i = 0; i < starArray.length; i++) {
 var asteroidArray = [];
 for (var i = 0; i < 1000; i++) {  
     asteroidArray.push(new asteroid(random(30, 370), i * 40 - 8000));
+}
+
+//gems given random values and pushed into gem array
+var gemArray = [];
+for (var i = 0; i < 1000; i++) {  
+    gemArray.push(new gem(random(30, 370), i * 120 - 8000));
 }
 
 //start button 
@@ -239,7 +253,11 @@ var homeScreen = function () {
     drawBitmojiMatt(331,292,69);
     fill(212, 155, 32);
     rect(125,126,150,150);
-    //text("How to play:", 150
+    fill(0, 0, 0);
+    textSize(23);
+    text("How To Play", 136, 135);
+    textSize(10);
+    text("Use the mouse cursor to guide the spaceship through the asteroid field. Collect the gems to gain points. Each time you collect 5 points the spaceship will gain speed. Good luck!",131,172,150,200);
     
 };
 
@@ -249,6 +267,11 @@ var gameLive = function () {
     for (var i = 0; i < asteroidArray.length; i++) {
         asteroidArray[i].draw();
         asteroidArray[i].y +=1;
+    }
+    //gem array
+    for (var i = 0; i < gemArray.length; i++) {
+        gemArray[i].draw();
+        gemArray[i].y +=1;
     }
     fill(252, 252, 252);
     //current spaceship drawing
@@ -278,7 +301,7 @@ var pauseScreen = function () {
 
 //Game over screen
 var gameOverScreen = function () {
-    //Game over screen will go here
+    
 };
 
 //Draw function
@@ -301,11 +324,14 @@ draw = function() {
     {
         backgroundScene();
         gameOverScreen();
+        score = 0;
+        if(score > highScore){
+            highScore = score;
+        }
     }
 };
 
 //Notes:Changes
 /*
-    I think we should change the pause button to a keyboard key in the next sprint, just to make it easier for the player to pause the game when the game is active, and have text on the screen just saying which button to press.
-    I changed the still playing variable from a boolean value to numbers to make it easier to have multiple game states, I also added a pause and resume button to the game and a title (which we can definitely come up with a better one) but just a place holder for now, since we will eventually need both our names and bitmojis on the screen. 
+
 */
