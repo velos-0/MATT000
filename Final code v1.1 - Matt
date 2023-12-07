@@ -109,7 +109,7 @@ var drawBitmojiMatt =function(x,y,h){
 };
 
 //Global variables
-var stillPlaying = 0;
+var stillPlaying = 1;
 var score = 0;
 var highScore = 0;
 
@@ -234,10 +234,23 @@ var resumeButton = new Button ({
     }
 });
 
+//restart button
+var restartButton = new Button ({
+    x: 145,
+    y: 274,
+    width: 108,
+    height: 41,
+    label: "RESTART",
+    onClick: function() {
+        stillPlaying = 0;
+    }
+});
+
 //mouse clicked function
 mouseClicked = function() {
     startButton.handleMouseClick();
     resumeButton.handleMouseClick();
+    restartButton.handleMouseClick();
 };
 
 //Home screen
@@ -274,11 +287,18 @@ var gameLive = function () {
         gemArray[i].y +=1;
     }
     fill(252, 252, 252);
-    //current spaceship drawing
-    ellipse(mouseX,mouseY,20,20);
-    textSize(20);
+    //backdrop for pause text and score text
     fill(212, 155, 32);
-    text("CLICK SPACE BAR TO PAUSE",10,10);
+    rect(0,0,400,20);
+    //current spaceship drawing
+    fill(255, 255, 255);
+    ellipse(mouseX,mouseY,20,20);
+    textSize(15);
+    fill(0, 0, 0);
+    text("CLICK SPACE BAR TO PAUSE",10,15);
+    //text to display score on screen
+    fill(0, 0, 0);
+    text("Score: " + score, 331,16);
 };
 
 //Function to make game pause using spacebar
@@ -301,7 +321,21 @@ var pauseScreen = function () {
 
 //Game over screen
 var gameOverScreen = function () {
-    
+    // game over sign
+    fill(212, 155, 32);
+    rect(50,50,300,75);
+    fill(0, 0, 0);
+    textSize(40);
+    text("GAME OVER",77,66);
+    //area to display score and highScore
+    fill(212, 155, 32);
+    rect(76,154,250,50);
+    fill(0, 0, 0);
+    textSize(20);
+    text("Score: " + score,90,169);
+    text("Highscore: " + highScore, 190,169);
+    //button to return to homescreen
+    restartButton.draw();
 };
 
 //Draw function
