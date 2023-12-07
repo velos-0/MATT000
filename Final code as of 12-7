@@ -45,6 +45,74 @@ textSize((15/p));
 text("MV", bodyX+(159/p),bodyY+(241/p));
 };
 
+//Bitmoji Code: Matt McCune:
+var drawBitmojiHead =function(hdX,hdY,bitmojiHeadHeight){
+    var x=hdX;
+    var y=hdY;
+    var h=bitmojiHeadHeight/100;
+noStroke();
+fill(255,205,148);
+ellipse(x+(h*9),y-(h*20),h*70,h*85); //head
+fill(102, 66, 28);
+arc(x+(h*9),y-(h*41),h*60,h*51,180,360); //center hair
+rect(x-(h*19),y-(h*66),h*37,h*22,50);//hair2
+fill(255, 255, 255);
+fill(250, 240, 240);
+ellipse(x+(h*25),y-(h*27),h*15,h*15);// left eye
+ellipse(x-(h*5),y-(h*27),h*15,h*15);//righteye
+fill(101, 67, 33);
+ellipse(x+(h*25),y-(h*27),h*7,h*6);// left pupil
+ellipse(x-(h*5),y-(h*27),h*7,h*6);// right pupil
+stroke(0, 0, 0);
+fill(255,205,148);
+arc(x+(h*10),y-(h*1),h*31,h*13,0,180);
+fill(207, 32, 230);
+noStroke();
+};
+    //end head
+
+    //start body
+var drawBitmojiBody=function(bX,bY,bitmojiBodyHeight){
+    var x=bX;
+    var y=bY;
+    var h=bitmojiBodyHeight/100;
+quad(x-(h*50),y+(h*45),x-(h*17),y+(h*22),x+(h*30),y+(h*22),x+(h*66),y+(h*45));//shirt
+rect(x-(h*50),y+(h*44),h*115,h*40,0);
+stroke(255, 255, 255);
+strokeWeight(5);
+line(x-(h*20),y+(h*61),x-(h*20),y+(h*34));//|
+line(x-(h*20),y+(h*34),x-(h*10),y+(h*61));//\
+line(x-(h*10),y+(h*61),x,y+(h*34));///
+line(x,y+(h*34),x,y+(h*61));//|
+line(x+(h*15),y+(h*34),x+(h*15),y+(h*61));//|2
+line(x+(h*25),y+(h*61),x+(h*15),y+(h*34));//\2
+line(x+(h*35),y+(h*34),x+(h*25),y+(h*61));///2
+line(x+(h*35),y+(h*61),x+(h*35),y+(h*34));//
+};
+    //end body
+
+    //start sunglasses
+var drawBitmojiSunglasses=function(sX,sY,bitmojiSunglassHeight){
+    var x=sX;
+    var y=sY;
+    var h =bitmojiSunglassHeight/100; 
+fill(31, 186, 217);
+strokeWeight(1);
+stroke(43, 35, 35);
+ellipse(x-(h*5),y-(h*43),h*25,h*25);//sunglasses
+ellipse(x+(h*24),y-(h*43),h*25,h*25);
+strokeWeight(2);
+line(x+(h*44),y-(h*28),x+(h*36),y-(h*41));
+line(x-(h*25),y-(h*28),x-(h*17),y-(h*41));
+};
+    //end sunglasses
+
+var drawBitmojiMatt =function(x,y,h){
+    drawBitmojiHead(x,y,h);
+    drawBitmojiBody(x,y,h);
+    drawBitmojiSunglasses(x,y,h);
+};
+
 //Global variables
 var stillPlaying = 0;
 
@@ -168,6 +236,10 @@ var homeScreen = function () {
     textSize(20);
     startButton.draw();
     drawBitmoji(70,300,62);
+    drawBitmojiMatt(331,292,69);
+    fill(212, 155, 32);
+    rect(125,126,150,150);
+    //text("How to play:", 150
     
 };
 
