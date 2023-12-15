@@ -109,9 +109,11 @@ var drawBitmojiMatt =function(x,y,h){
 };
 
 //Global variables
-var stillPlaying = 1;
+var stillPlaying = 0;
 var score = 0;
 var highScore = 0;
+var gameSpeed = 1;
+frameRate(60);
 
 //Button constructor
 var Button = function(config) {
@@ -152,7 +154,7 @@ Button.prototype.handleMouseClick = function() {
 //Asteroid constructor
 var asteroid = function(x, y) {
     this.x = x;
-    this.y = y;
+    this.y = y;                     
 };
 
 //Gem constructor
@@ -185,29 +187,36 @@ star.prototype.draw = function() {
 
 //array to give values for star locations
 var starArray = [];
-for(var i = 0; i < 1000; i++){
-    starArray.push(new star(random (0,400), i * 10 - 8000));
+for(var i = 0; i < 50; i++){
+    starArray.push(new star(random (0,400), i * 8 - 40));
 }
 
 //background scene and drawing stars and moving them down the screen
 var backgroundScene = function() {
-    background(0,0,50);
-for (var i = 0; i < starArray.length; i++) {
+    background(0, 0, 50);
+
+    for (var i = 0; i < starArray.length; i++) {
         starArray[i].draw();
-        starArray[i].y +=0.5;
- }
+        starArray[i].y += gameSpeed;
+
+        // Check if the star has reached the bottom of the screen
+        if (starArray[i].y > 400) {
+            starArray[i].y = -10; // Reset to the top
+            starArray[i].x = random(0, 400); // Randomize x position
+        }
+    }
 };
 
 //asteroids given random values and pushed into asteroid array
 var asteroidArray = [];
-for (var i = 0; i < 1000; i++) {  
-    asteroidArray.push(new asteroid(random(30, 370), i * 40 - 8000));
+for (var j = 0; j < 20; j++) {  
+    asteroidArray.push(new asteroid(random(30, 370), j * 25 - 700));
 }
 
 //gems given random values and pushed into gem array
 var gemArray = [];
-for (var i = 0; i < 1000; i++) {  
-    gemArray.push(new gem(random(30, 370), i * 120 - 8000));
+for (var h = 0; h < 100; h++) {  
+    gemArray.push(new gem(random(30, 370), h * 120 - 12000));
 }
 
 //start button 
@@ -276,15 +285,41 @@ var homeScreen = function () {
 
 //Game active 
 var gameLive = function () {
-    //asteroid array
-    for (var i = 0; i < asteroidArray.length; i++) {
-        asteroidArray[i].draw();
-        asteroidArray[i].y +=1;
+    var collisionOccured = false;
+    for (var a = 0; a < asteroidArray.length; a++) {
+        asteroidArray[a].draw();
+        asteroidArray[a].y += gameSpeed;
+        //reset asteroids to top of the screen
+        if (asteroidArray[a].y > 400) {
+            asteroidArray[a].y = -50;
+            asteroidArray[a].x = random(30, 370);
+        }
+        if (
+            mouseX > asteroidArray[a].x &&
+            mouseX < asteroidArray[a].x + 20 &&
+            mouseY > asteroidArray[a].y &&
+            mouseY < asteroidArray[a].y + 10
+        ) 
+        {
+            collisionOccured = true;
+        }
+        if (collisionOccured) {stillPlaying = 3;}
     }
-    //gem array
-    for (var i = 0; i < gemArray.length; i++) {
-        gemArray[i].draw();
-        gemArray[i].y +=1;
+    //gem draw onto screen and increase speed
+    for (var v = 0; v < gemArray.length; v++) {
+        gemArray[v].draw();
+        gemArray[v].y += gameSpeed;
+        if (
+            mouseX > gemArray[v].x &&
+            mouseX < gemArray[v].x + 25 &&
+            mouseY > gemArray[v].y &&
+            mouseY < gemArray[v].y + 25
+        ) 
+        {
+            score++;
+            gemArray[v].y = -100; 
+            gemArray[v].x = random(30, 370); 
+        }
     }
     fill(252, 252, 252);
     //backdrop for pause text and score text
@@ -295,10 +330,10 @@ var gameLive = function () {
     ellipse(mouseX,mouseY,20,20);
     textSize(15);
     fill(0, 0, 0);
-    text("CLICK SPACE BAR TO PAUSE",10,15);
+    text("CLICK SPACE BAR TO PAUSE",10,1);
     //text to display score on screen
     fill(0, 0, 0);
-    text("Score: " + score, 331,16);
+    text("Score: " + score, 331,1);
 };
 
 //Function to make game pause using spacebar
@@ -364,8 +399,3 @@ draw = function() {
         }
     }
 };
-
-//Notes:Changes
-/*
-
-*/
