@@ -170,9 +170,15 @@ var spaceship = function ()
 };
 //draw method for asteroid
 asteroid.prototype.draw = function() {
-    image(getImage("cute/Rock"),this.x,this.y,50,50);
+ fill(135, 125, 116);
+//noStroke();
+rect(this.x,this.y,40,40,55);
+fill(94, 94, 94);
+rect(this.x+7,this.y+7,15,15,131);
+rect(this.x+25,this.y+21,8,8,131);
+rect(this.x+11,this.y+28,6,6,131);
 };
-
+//rect(180,140,50,50,55);
 //Gem draw method
 gem.prototype.draw = function() {
     image(getImage("cute/GemBlue"),this.x,this.y,25,25);
@@ -324,10 +330,10 @@ var gameLive = function () {
             asteroidArray[a].x = random(30, 370);
         }
         if (
-            mouseX > asteroidArray[a].x &&
-            mouseX < asteroidArray[a].x + 20 &&
-            mouseY > asteroidArray[a].y &&
-            mouseY < asteroidArray[a].y + 10
+            mouseX+10 > asteroidArray[a].x &&
+            mouseX-10 < asteroidArray[a].x + 20 &&
+            mouseY+15 > asteroidArray[a].y &&
+            mouseY-15 < asteroidArray[a].y + 10
         ) 
         {
             collisionOccured = true;
@@ -339,10 +345,10 @@ var gameLive = function () {
         gemArray[v].draw();
         gemArray[v].y += gameSpeed;
         if (
-            mouseX > gemArray[v].x &&
-            mouseX < gemArray[v].x + 25 &&
-            mouseY > gemArray[v].y &&
-            mouseY < gemArray[v].y + 25
+            mouseX+10 > gemArray[v].x &&
+            mouseX-10 < gemArray[v].x + 25 &&
+            mouseY+15 > gemArray[v].y &&
+            mouseY-15 < gemArray[v].y + 25
         ) 
         {
             score++;
