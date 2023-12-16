@@ -107,7 +107,7 @@ var drawBitmojiMatt =function(x,y,h){
     drawBitmojiBody(x,y,h);
     drawBitmojiSunglasses(x,y,h);
 };
-
+//////////////////////////////////////////////////////////////////////////////////////////
 //Global variables
 var stillPlaying = 0;
 var score = 0;
@@ -123,6 +123,7 @@ var Button = function(config) {
     this.height = config.height || 50;
     this.label = config.label || "Click";
     this.onClick = config.onClick || function() {};
+    this.textSize = textSize(50);
 };
 
 //draw method for buttons
@@ -162,7 +163,11 @@ var gem = function(x, y) {
     this.x = x;
     this.y = y;
 };
-
+var spaceship = function ()
+{
+    this.x=0;
+    this.y=0;
+};
 //draw method for asteroid
 asteroid.prototype.draw = function() {
     image(getImage("cute/Rock"),this.x,this.y,50,50);
@@ -172,6 +177,30 @@ asteroid.prototype.draw = function() {
 gem.prototype.draw = function() {
     image(getImage("cute/GemBlue"),this.x,this.y,25,25);
 };
+spaceship.prototype.draw = function() {
+noStroke();
+this.x = mouseX - 10; 
+this.y = mouseY - 15; 
+//rocket body
+fill(255, 255, 255);
+rect(this.x, this.y, 20, 30);
+//tip and wings
+fill(255, 0, 0);
+triangle(this.x, this.y, this.x + 10, this.y - 20, this.x + 20, this.y);
+triangle(this.x - 10, this.y + 35, this.x, this.y + 10, this.x, this.y + 30);
+triangle(this.x + 30, this.y + 35, this.x + 20, this.y + 10, this.x + 20, this.y + 30);
+//window
+fill(0, 157, 255);
+ellipse(this.x + 10, this.y + 15, 10, 10);
+//fire
+fill(255, 166, 0);
+triangle(this.x + 3, this.y + 30, this.x + 10, this.y + 60, this.x + 17, this.y + 30);
+
+fill(255, 238, 0);
+triangle(this.x + 6, this.y + 30, this.x + 10, this.y + 47, this.x + 13, this.y + 30);
+};
+
+var spaceship1 = new spaceship(this.x,this.y);
 
 //background stars constructor 
 var star = function(x,y) {
@@ -224,8 +253,8 @@ var startButton = new Button({
     x: 128,
     y: 300,
     width: 148,
-    height: 41,
-    label: "START GAME",
+    height: 58,
+    label:"PLAY",
     onClick: function() {
         stillPlaying = 1;
     }
@@ -327,7 +356,7 @@ var gameLive = function () {
     rect(0,0,400,20);
     //current spaceship drawing
     fill(255, 255, 255);
-    ellipse(mouseX,mouseY,20,20);
+    spaceship1.draw(); 
     textSize(15);
     fill(0, 0, 0);
     text("CLICK SPACE BAR TO PAUSE",10,1);
