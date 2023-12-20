@@ -255,8 +255,8 @@ for (var j = 0; j < 18; j++) {
 
 //gems given random values and pushed into gem array
 var gemArray = [];
-for (var h = 0; h < 100; h++) {  
-    gemArray.push(new gem(random(30, 370), h * 120 - 12000));
+for (var h = 0; h < 10; h++) {  
+    gemArray.push(new gem(random(20, 380), h * 40 - 700));
 }
 
 //start button 
@@ -305,8 +305,8 @@ var gameLive = function () {
         asteroidArray[a].y += gameSpeed;
         //reset asteroids to top of the screen
         if (asteroidArray[a].y > 400) {
-            asteroidArray[a].y = -50;
-            asteroidArray[a].x = random(30, 370);
+            asteroidArray[a].y = random(0,-400);
+            asteroidArray[a].x = random(20, 380);
         }
         if (
             mouseX > asteroidArray[a].x &&
@@ -331,8 +331,12 @@ var gameLive = function () {
         ) 
         {
             score++;
-            gemArray[v].y = -100; 
-            gemArray[v].x = random(30, 370); 
+            gemArray[v].y = random(0,-400); 
+            gemArray[v].x = random(20, 380); 
+        }
+        if (gemArray[v].y > 400) {
+            gemArray[v].y = random(0,-400);
+            gemArray[v].x = random(20, 380);
         }
     }
     fill(252, 252, 252);
@@ -376,9 +380,21 @@ var gameLive = function () {
     {
         gameSpeed = 7;
     }
-    else
+    else if(score < 80  && score >= 70)
+    {
+        gameSpeed = 8;
+    }
+    else if(score < 90  && score >= 80)
+    {
+        gameSpeed = 9;
+    }
+    else if(score < 100  && score >= 90)
     {
         gameSpeed = 10;
+    }
+    else
+    {
+        gameSpeed = 11; 
     }
 };
 
@@ -450,10 +466,3 @@ draw = function() {
         gameSpeed = 1;
     }
 };
-
-/*
-Notes: I removed the healthbar just to figure out how to get the collision working again. I changed the unpause to spacbar aswell and removed the restart button since it bugged the game.
-
-Im gonna fix the gems cause i got to a score of about 50 and they disapreared so im going to make them roughly have the same logic as the asteroids and stars but just a bit of variation in where theyre being pushed in the y when they are redrawn
-
-*/
