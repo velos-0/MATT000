@@ -288,12 +288,14 @@ var homeScreen = function () {
     drawBitmoji(70,300,62);
     drawBitmojiMatt(331,292,69);
     fill(212, 155, 32);
-    rect(125,126,150,146);
+    rect(125,115,150,171);
     fill(0, 0, 0);
     textSize(23);
-    text("How To Play", 136, 135);
+    text("How To Play", 136, 124);
     textSize(10);
-    text("Use the mouse cursor to guide the spaceship through the asteroid field. Collect the gems to gain points. Each time you collect 5 points the spaceship will gain speed. Good luck!",131,172,150,200);
+    text("Use the mouse cursor to guide the spaceship through the asteroid field. Collect the gems to gain points. Each time you collect 5 points the spaceship will gain speed. Good luck!",131,158,150,200);
+    text("By: Matt McCune and Matthew Veloso.",146,250,100,100);
+    
     
 };
 
@@ -436,8 +438,8 @@ var gameOverScreen = function () {
     fill(212, 155, 32);
     rect(109,316,180,50);
     fill(0, 0, 0);
-    textSize(15);
-    text("Click restart to play again!",112,330);
+    textSize(14);
+    text("Refresh Page to play again!",112,330);
     
 };
 
@@ -466,3 +468,4 @@ draw = function() {
         gameSpeed = 1;
     }
 };
+
